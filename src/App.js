@@ -32,14 +32,16 @@ function App() {
           </div>
         </nav>
         
-        <Routes>
-          <Route path="/" element={<Home/>} ></Route>
-          <Route path="/asignaturas" element={<Asignaturas/>} ></Route>
-          <Route path="/calificaciones" element={<Calificaciones/>} ></Route>
-          <Route path="/estudiantes" element={<Estudiantes/>} ></Route>
-          <Route path="/profesores" element={<Profesores/>} ></Route>
-          <Route path="/login" element={<Login/>} ></Route>
-        </Routes>
+        <div className="container">
+          <Routes>
+            <Route path="/" element={<Home/>} ></Route>
+            <Route path="/asignaturas" element={<Asignaturas/>} ></Route>
+            <Route path="/calificaciones" element={<Calificaciones/>} ></Route>
+            <Route path="/estudiantes" element={<Estudiantes/>} ></Route>
+            <Route path="/profesores" element={<Profesores/>} ></Route>
+            <Route path="/login" element={<Login/>} ></Route>
+          </Routes>
+        </div> 
 
       </Router>
     </div>
