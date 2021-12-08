@@ -1,6 +1,81 @@
 import React, {Component} from "react";
 
+import Profesor from './Profesor';
+import Alert from './Alert';
+
 export default class Profesores extends Component {
+
+    constructor(props)
+    {
+        super(props);
+        this.state = {
+            profesorSeleccionado: null
+        };
+        this.handleEdit = this.handleEdit.bind(this);
+        this.handleCloseError = this.handleCloseError.bind(this);
+    }
+
+    handleEdit(profesor)
+    {
+        this.setState({
+            profesorSeleccionado: profesor.nombre
+        });
+    }
+
+    handleCloseError()
+    {
+        this.setState({
+            profesorSeleccionado: null
+        });
+    }
+
+    render()
+    {
+    
+        const profesores = [
+            {
+                _id: 1,
+                identificacion: "777777",
+                nombre: "Some One",
+                password: "123456",
+                editable: true
+            },
+            {
+                _id: 2,
+                identificacion: "888888",
+                nombre: "Some Two XD",
+                password: "123456",
+                editable: true
+            }
+        ];
+
+        return (
+            <div>
+                <Alert message={this.state.profesorSeleccionado} onClose={this.handleCloseError} />
+
+                <table className="table" >
+                    <thead>
+                        <tr>
+                            <th>identificacion</th>
+                            <th>nombre</th>
+                            <th>editable</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {profesores.map(profesor => {
+                            return <Profesor profesor={profesor} onEdit={this.handleEdit} key={profesor._id} />
+                        })}
+                        
+                    </tbody>
+                </table>
+                
+            </div>
+        );
+
+    }
+
+    /*
 
     state = {
         profesores: []
@@ -19,7 +94,7 @@ export default class Profesores extends Component {
         console.log(data);
         this.setState({profesores: data});
     }
-
+    
     render()
     {
         return (
@@ -52,5 +127,6 @@ export default class Profesores extends Component {
             </div>
         );
     }
+    */
 }
     

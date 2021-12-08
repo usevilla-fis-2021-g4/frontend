@@ -3,17 +3,17 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 
-import Home from './components/general/Home'
-import Login from './components/general/Login'
-import Asignaturas from './components/asignaturas/Asignaturas'
-import Calificaciones from './components/calificaciones/Calificaciones'
-import Estudiantes from './components/estudiantes/Estudiantes'
-import Profesores from './components/profesores/Profesores'
+import Home from './components/general/Home';
+import Login from './components/general/Login';
+import Asignaturas from './components/asignaturas/Asignaturas';
+import Calificaciones from './components/calificaciones/Calificaciones';
+import Estudiantes from './components/estudiantes/Estudiantes';
+import Profesores from './components/profesores/Profesores';
 
 function App() {
   return (
 
-    <div>
+    <div className="container" >
       <Router>
 
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -32,16 +32,14 @@ function App() {
           </div>
         </nav>
         
-        <div className="container">
-          <Routes>
-            <Route path="/" element={<Home/>} ></Route>
-            <Route path="/asignaturas" element={<Asignaturas/>} ></Route>
-            <Route path="/calificaciones" element={<Calificaciones/>} ></Route>
-            <Route path="/estudiantes" element={<Estudiantes/>} ></Route>
-            <Route path="/profesores" element={<Profesores/>} ></Route>
-            <Route path="/login" element={<Login/>} ></Route>
-          </Routes>
-        </div> 
+        <Routes>
+          <Route path="/" element={<Home/>} ></Route>
+          <Route path="/asignaturas" element={<Asignaturas/>} ></Route>
+          <Route path="/calificaciones" element={<Calificaciones/>} ></Route>
+          <Route path="/estudiantes" element={<Estudiantes/>} ></Route>
+          <Route path="/profesores" element={<Profesores/>} ></Route>
+          <Route path="/login" element={<Login/>} ></Route>
+        </Routes>
 
       </Router>
     </div>
