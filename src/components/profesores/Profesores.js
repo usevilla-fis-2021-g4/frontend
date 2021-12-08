@@ -2,6 +2,8 @@ import React, {Component} from "react";
 
 import Profesor from './Profesor';
 import Alert from './Alert';
+import NewProfesor from './NewProfesor';
+import EditProfesor from './EditProfesor';
 
 export default class Profesores extends Component {
 
@@ -9,63 +11,157 @@ export default class Profesores extends Component {
     {
         super(props);
         this.state = {
-            profesorSeleccionado: null
+            errorInfo: null,
+            profesores: [
+                {
+                    _id: 1,
+                    identificacion: "777777",
+                    nombre: "Some One",
+                    password: "123456",
+                    editable: true
+                },
+                {
+                    _id: 2,
+                    identificacion: "888888",
+                    nombre: "Some Two XD",
+                    password: "123456",
+                    editable: true
+                }
+            ],
+            isEditing: {}
         };
         this.handleEdit = this.handleEdit.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
         this.handleCloseError = this.handleCloseError.bind(this);
+        this.addProfesor = this.addProfesor.bind(this);
+
+        this.handleEditCancel = this.handleEditCancel.bind(this);
+        this.handleEditChange = this.handleEditChange.bind(this);
+        this.handleEditSave = this.handleEditSave.bind(this);
     }
 
     handleEdit(profesor)
     {
-        this.setState({
-            profesorSeleccionado: profesor.nombre
+        this.setState(prevState => {
+
+            return ({
+                isEditing: {...prevState.isEditing, [profesor._id]: profesor} 
+            });
+
         });
+    }
+
+    handleDelete(profesor)
+    {
+        console.log("pasó por Porfesor.js handleDelete, profesor "+profesor.identificacion);
+        this.setState(prevState => ({
+            profesores: prevState.profesores.filter((p) => p._id !== profesor._id)
+        }));
     }
 
     handleCloseError()
     {
         this.setState({
-            profesorSeleccionado: null
+            errorInfo: null
+        });
+    }
+
+    addProfesor(profesor)
+    {
+        profesor["editable"] = true;
+        profesor["_id"] = this.state.profesores.length + 1;
+
+        this.setState(prevState => {
+
+            const profesores = prevState.profesores;
+
+            if(!profesores.find(p => p.identificacion === profesor.identificacion))
+            {
+                return ({
+                    profesores: [...prevState.profesores, profesor]
+                });
+            }
+
+            return ({
+                errorInfo: "El profesor ya existe"
+            });
+        });
+    }
+
+    handleEditCancel(profesor)
+    {
+        console.log("pasó por Porfesor.js handleEditCancel, profesor "+profesor.identificacion);
+        this.setState(prevState => {
+            const isEditing = Object.assign({}, prevState.isEditing);
+            delete isEditing[profesor._id];
+            return {
+                isEditing: isEditing
+            }
+        })
+    }
+
+    handleEditChange(profesor)
+    {
+        //console.log("pasó por Porfesor.js handleEditChange, profesor "+profesor.identificacion);
+        this.setState(prevState => ({
+            isEditing: {...prevState.isEditing, [profesor._id]: profesor}
+        }));
+    }
+
+    handleEditSave(profesor)
+    {
+        //console.log("pasó por Porfesor.js handleEditSave, profesor "+profesor.identificacion);
+        this.setState(prevState => {
+
+            const isEditing = Object.assign({}, prevState.isEditing);
+            delete isEditing[profesor._id];
+
+            const profesores = prevState.profesores;
+            const pos = profesores.findIndex(p  => p._id ===  profesor._id);
+
+            return {
+                profesores: [...profesores.slice(0, pos), Object.assign({}, profesor), ...profesores.slice(pos + 1)],
+                isEditing: isEditing
+            };
         });
     }
 
     render()
     {
     
-        const profesores = [
-            {
-                _id: 1,
-                identificacion: "777777",
-                nombre: "Some One",
-                password: "123456",
-                editable: true
-            },
-            {
-                _id: 2,
-                identificacion: "888888",
-                nombre: "Some Two XD",
-                password: "123456",
-                editable: true
-            }
-        ];
-
         return (
             <div>
-                <Alert message={this.state.profesorSeleccionado} onClose={this.handleCloseError} />
+                <Alert message={this.state.errorInfo} onClose={this.handleCloseError} />
 
-                <table className="table" >
+                <NewProfesor onAddProfesor={this.addProfesor} />
+
+                <br/>
+
+                <table className="table table-bordered table-striped table-hover" >
                     <thead>
+                        <tr colSpan="3">
+                            <th>Lista Profesores</th>
+                        </tr>
                         <tr>
                             <th>identificacion</th>
                             <th>nombre</th>
-                            <th>editable</th>
+                            <th>password</th>
                             <th>&nbsp;</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {profesores.map(profesor => {
-                            return <Profesor profesor={profesor} onEdit={this.handleEdit} key={profesor._id} />
-                        })}
+                        {this.state.profesores.map((profesor) => 
+                            
+                            !this.state.isEditing[profesor._id] ?
+                            <Profesor profesor={profesor} onEdit={this.handleEdit} onDelete={this.handleDelete} key={profesor._id} />
+                            :
+                            <EditProfesor 
+                                profesor={this.state.isEditing[profesor._id]} 
+                                onCancel={this.handleEditCancel} 
+                                onSave={this.handleEditSave} 
+                                onChange={this.handleEditChange}
+                                key={profesor._id} />
+                        )}
                         
                     </tbody>
                 </table>

@@ -6,11 +6,12 @@ export default class Profesor extends Component
     {
         return (
             <tr>
-                <td>identificacion: {this.props.profesor.identificacion}</td>
-                <td>nombre: {this.props.profesor.nombre}</td>
-                <td>editable: {this.props.profesor.editable ? 'SI': 'NO'}</td>
+                <td>{this.props.profesor.identificacion}</td>
+                <td>{this.props.profesor.nombre}</td>
+                <td>******</td>
                 <td>
                     <button className="btn btn-primary" onClick={() => this.props.onEdit(this.props.profesor)} >Edit</button>
+                    <button className="btn btn-primary" onClick={() => this.props.onDelete(this.props.profesor)} >Delete</button>
                 </td>
             </tr>
         );
