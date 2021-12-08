@@ -4,6 +4,7 @@ import Profesor from './Profesor';
 import Alert from './Alert';
 import NewProfesor from './NewProfesor';
 import EditProfesor from './EditProfesor';
+import ProfesoresApi from './ProfesoresApi';
 
 export default class Profesores extends Component {
 
@@ -12,7 +13,7 @@ export default class Profesores extends Component {
         super(props);
         this.state = {
             errorInfo: null,
-            profesores: [
+            profesores: []/*[
                 {
                     _id: 1,
                     identificacion: "777777",
@@ -27,7 +28,7 @@ export default class Profesores extends Component {
                     password: "123456",
                     editable: true
                 }
-            ],
+            ]*/,
             isEditing: {}
         };
         this.handleEdit = this.handleEdit.bind(this);
@@ -38,6 +39,22 @@ export default class Profesores extends Component {
         this.handleEditCancel = this.handleEditCancel.bind(this);
         this.handleEditChange = this.handleEditChange.bind(this);
         this.handleEditSave = this.handleEditSave.bind(this);
+    }
+
+    componentDidMount()
+    {
+        ProfesoresApi.getAllProfesores().then(
+            (result) => {
+                this.setState({
+                    profesores: result
+                });
+            },
+            (error) => {
+                this.setState({
+                    errorInfo: "Problem with connection to server"
+                })
+            }
+        );
     }
 
     handleEdit(profesor)
