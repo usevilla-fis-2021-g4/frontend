@@ -13,24 +13,10 @@ export default class Profesores extends Component {
         super(props);
         this.state = {
             errorInfo: null,
-            profesores: []/*[
-                {
-                    _id: 1,
-                    identificacion: "777777",
-                    nombre: "Some One",
-                    password: "123456",
-                    editable: true
-                },
-                {
-                    _id: 2,
-                    identificacion: "888888",
-                    nombre: "Some Two XD",
-                    password: "123456",
-                    editable: true
-                }
-            ]*/,
+            profesores: [],
             isEditing: {}
         };
+
         this.handleEdit = this.handleEdit.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
         this.handleCloseError = this.handleCloseError.bind(this);
@@ -70,10 +56,25 @@ export default class Profesores extends Component {
 
     handleDelete(profesor)
     {
+        console.log("handleDelete");
         console.log("pasó por Porfesor.js handleDelete, profesor "+profesor.identificacion);
-        this.setState(prevState => ({
-            profesores: prevState.profesores.filter((p) => p._id !== profesor._id)
-        }));
+
+
+        ProfesoresApi.deleteProfesor(profesor).then(
+            (response) =>
+            {
+                console.log("response");
+                console.log(response);
+                console.log("el servidor respondió bien, ahora si modifico el estado");
+                this.setState(prevState => ({
+                    profesores: prevState.profesores.filter((p) => p._id !== profesor._id)
+                }));
+            } ,
+            (error) =>
+            {
+                console.log("algo falló en el servidor no modifico el estado");
+            }
+        );
     }
 
     handleCloseError()
@@ -85,15 +86,28 @@ export default class Profesores extends Component {
 
     addProfesor(profesor)
     {
+        console.log("addProfesor");
         profesor["editable"] = true;
-        profesor["_id"] = this.state.profesores.length + 1;
 
         this.setState(prevState => {
-
+            console.log("pasó por el punto 1");
             const profesores = prevState.profesores;
 
             if(!profesores.find(p => p.identificacion === profesor.identificacion))
             {
+                console.log("pasó por el punto 2", profesor);
+
+                ProfesoresApi.addProfesor(profesor).then(
+                    (response) => {
+                        console.log("agregó el profesor");
+                    },
+                    (error) => {
+                        console.log("Algo salió mal al agregar el profesor");
+                    }
+                );
+                
+                profesor["_id"] = prevState.profesores.length + 1;
+
                 return ({
                     profesores: [...prevState.profesores, profesor]
                 });
