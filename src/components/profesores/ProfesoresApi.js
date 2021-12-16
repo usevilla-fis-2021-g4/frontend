@@ -69,6 +69,31 @@ export default class ProfesoresApi
         return response;
     }
 
+    static async updateProfesor(profesor)
+    {
+        console.log("ProfesoresApi.updateProfesor", profesor);
+        
+        const headers = ProfesoresApi.requestHeaders();
+        const request = new Request(ProfesoresApi.API_BASE_URL + "/profesores/"+profesor._id, {
+            method: "PATCH",
+            headers: headers,
+            body: JSON.stringify(profesor)
+        });
+
+        const response = await fetch(request);
+
+        console.log(response);
+        console.log(response.ok);
+
+        if(response.ok !== true)
+        {
+            console.log("pasó por la excepcion");
+            throw Error("Response not valid "+response.status);
+        }        
+
+        return response;
+    }
+
     static async deleteProfesor(profesor)
     {
         console.log(profesor);
