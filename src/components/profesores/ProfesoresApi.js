@@ -38,7 +38,7 @@ export default class ProfesoresApi
         if(response.ok !== true)
         {
             console.log("pasó por la excepcion");
-            throw Error("Response not valid "+response.status);
+            throw Error(response.statusText);
         }
 
         return response.json();
@@ -63,7 +63,7 @@ export default class ProfesoresApi
         if(response.ok !== true)
         {
             console.log("pasó por la excepcion");
-            throw Error("Response not valid "+response.status);
+            throw Error(response.statusText);
         }        
 
         return response;
@@ -88,7 +88,7 @@ export default class ProfesoresApi
         if(response.ok !== true)
         {
             console.log("pasó por la excepcion");
-            throw Error("Response not valid "+response.status);
+            throw Error(response.statusText);
         }        
 
         return response;
@@ -113,7 +113,7 @@ export default class ProfesoresApi
         if(response.ok !== true)
         {
             console.log("pasó por la excepcion");
-            throw Error("Response not valid "+response.status);
+            throw Error(response.statusText);
         }   
 
         return response;

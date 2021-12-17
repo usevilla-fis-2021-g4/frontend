@@ -87,36 +87,43 @@ export default class Profesores extends Component {
     addProfesor(profesor)
     {
         console.log("addProfesor");
+
+        //corrección de datos faltantes que deben ir al backend
         profesor["editable"] = true;
 
-        this.setState(prevState => {
-            console.log("pasó por el punto 1");
-            const profesores = prevState.profesores;
+        ProfesoresApi.addProfesor(profesor).then(
+            (response) => {
+                console.log("agregó el profesor");
 
-            if(!profesores.find(p => p.identificacion === profesor.identificacion))
-            {
-                console.log("pasó por el punto 2", profesor);
+                this.setState(prevState => {
+                    console.log("pasó por el punto 1");
+                    const profesores = prevState.profesores;
 
-                ProfesoresApi.addProfesor(profesor).then(
-                    (response) => {
-                        console.log("agregó el profesor");
-                    },
-                    (error) => {
-                        console.log("Algo salió mal al agregar el profesor");
+                    profesor["_id"] = prevState.profesores.length + 1;
+        
+                    if(!profesores.find(p => p.identificacion === profesor.identificacion))
+                    {
+                        console.log("pasó por el punto 2", profesor);             
+
+                        return ({
+                            profesores: [...prevState.profesores, profesor]
+                        });
                     }
-                );
+                });
                 
-                profesor["_id"] = prevState.profesores.length + 1;
-
-                return ({
-                    profesores: [...prevState.profesores, profesor]
+            },
+            (error) => {
+                console.log("Algo salió mal al agregar el profesor");
+                //console.log(error.message);
+                
+                this.setState(prevState => {
+                    return ({
+                        errorInfo: error.message
+                    });
                 });
             }
+        );
 
-            return ({
-                errorInfo: "El profesor ya existe"
-            });
-        });
     }
 
     handleEditCancel(profesor)
@@ -142,28 +149,37 @@ export default class Profesores extends Component {
     handleEditSave(profesor)
     {
         //console.log("pasó por Porfesor.js handleEditSave, profesor "+profesor.identificacion);
-        this.setState(prevState => {
 
-            ProfesoresApi.updateProfesor(profesor).then(
-                (response) => {
-                    console.log("Editó el profesor");
-                },
-                (error) => {
-                    console.log("Algo salió mal al editar el profesor");
-                }
-            );
 
-            const isEditing = Object.assign({}, prevState.isEditing);
-            delete isEditing[profesor._id];
+        ProfesoresApi.updateProfesor(profesor).then(
+            (response) => {
+                console.log("Editó el profesor");
 
-            const profesores = prevState.profesores;
-            const pos = profesores.findIndex(p  => p._id ===  profesor._id);
+                this.setState(prevState => {
 
-            return {
-                profesores: [...profesores.slice(0, pos), Object.assign({}, profesor), ...profesores.slice(pos + 1)],
-                isEditing: isEditing
-            };
-        });
+                    const isEditing = Object.assign({}, prevState.isEditing);
+                    delete isEditing[profesor._id];
+        
+                    const profesores = prevState.profesores;
+                    const pos = profesores.findIndex(p  => p._id ===  profesor._id);
+        
+                    return {
+                        profesores: [...profesores.slice(0, pos), Object.assign({}, profesor), ...profesores.slice(pos + 1)],
+                        isEditing: isEditing
+                    };
+                });
+
+            },
+            (error) => {
+                console.log("Algo salió mal al editar el profesor");
+
+                this.setState(prevState => {
+                    return ({
+                        errorInfo: error.message
+                    });
+                });
+            }
+        );
     }
 
     render()
