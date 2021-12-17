@@ -144,6 +144,15 @@ export default class Profesores extends Component {
         //console.log("pasó por Porfesor.js handleEditSave, profesor "+profesor.identificacion);
         this.setState(prevState => {
 
+            ProfesoresApi.updateProfesor(profesor).then(
+                (response) => {
+                    console.log("Editó el profesor");
+                },
+                (error) => {
+                    console.log("Algo salió mal al editar el profesor");
+                }
+            );
+
             const isEditing = Object.assign({}, prevState.isEditing);
             delete isEditing[profesor._id];
 
