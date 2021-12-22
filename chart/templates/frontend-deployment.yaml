@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: frontend
   labels:
-    {{- include "frontend.labels" . | nindent 4 }}
+    {{- include "contacts.labels" . | nindent 4 }}
     app.kubernetes.io/component: frontend
 spec:
   replicas: {{ .Values.frontend.replicaCount }}
@@ -25,12 +25,12 @@ spec:
             - name: http
               containerPort: 80
               protocol: TCP
-          readinessProbe:
+          livenessProbe:
             periodSeconds: 1
             httpGet:
               path: /
               port: http
-          livenessProbe:
+          readinessProbe:
             periodSeconds: 1
             httpGet:
               path: /
