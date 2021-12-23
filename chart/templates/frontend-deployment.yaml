@@ -6,7 +6,7 @@ metadata:
     {{- include "frontend.labels" . | nindent 4 }}
     app.kubernetes.io/component: frontend
 spec:
-  replicas: {{ .Values.frontend.replicaCount }}
+  replicas: 1
   selector:
     matchLabels:
       app.kubernetes.io/name: frontend
@@ -20,18 +20,18 @@ spec:
       terminationGracePeriodSeconds: 0
       containers:
         - name: frontend
-          image: {{ .Values.frontend.image }}:{{ .Values.tag }}
+          image: okteto.dev/frontend:{{ .Values.tag }}
           ports:
             - name: http
               containerPort: 80
               protocol: TCP
-          readinessProbe:
-            periodSeconds: 1
-            httpGet:
-              path: /
-              port: 80
           livenessProbe:
             periodSeconds: 1
             httpGet:
               path: /
-              port: 80
+              port: http
+          readinessProbe:
+            periodSeconds: 1
+            httpGet:
+              path: /
+              port: http
