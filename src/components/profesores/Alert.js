@@ -10,7 +10,7 @@ export default class Alert extends Component {
         return (
             <div className="alert alert-warning alert-dismissable" >
                 <strong>¡Error!</strong> {this.props.message}
-                <button type="button" className="close" onClick={() => this.props.onClose()}>
+                <button type="button" className="close" onClick={() => this.props.onClose()} data-test-id="close">
                     <span>&times;</span>
                 </button>
             </div>
