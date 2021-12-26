@@ -4,23 +4,11 @@ export default class ProfesoresApi
 
     static requestHeaders()
     {
-        return {'Content-Type': 'application/json'};
+        return {
+            'Content-Type': 'application/json',
+            "apikey": "6382535d-52dc-4cd5-ab8b-425c9da7727e"
+        };
     }
-
-    /*
-    static getAllProfesores()
-    {
-        const headers = ProfesoresApi.requestHeaders();
-        const request = new Request(ProfesoresApi.API_BASE_URL + "/profesores", {
-            method: "GET",
-            headers: headers
-        });
-
-        return fetch(request).then(response => {
-            return response.json();
-        });
-    }
-    */
 
     static async getAllProfesores()
     {
@@ -119,44 +107,4 @@ export default class ProfesoresApi
         return response;
     }
 
-    /*
-    prueba(profesor)
-    {
-        
-
-        var profesor2 = {
-            identificacion: "123456789",
-            nombre: "Juan",
-            password: "123456789",
-            editable: true
-        };
-
-        
-        const response = ProfesoresApi.postData(ProfesoresApi.API_BASE_URL + "/profesores", profesor)
-        .then(data => {
-          console.log(data); // JSON data parsed by `data.json()` call
-        });
-        
-    }
-    */
-
-    // Example POST method implementation:
-    static async postData(url = '', data = {}) 
-    {
-        // Default options are marked with *
-        const response = await fetch(url, {
-            method: 'POST', // *GET, POST, PUT, DELETE, etc.
-            mode: 'cors', // no-cors, *cors, same-origin
-            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-            credentials: 'same-origin', // include, *same-origin, omit
-            headers: {
-                'Content-Type': 'application/json'
-                // 'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            redirect: 'follow', // manual, *follow, error
-            referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-            body: JSON.stringify(data) // body data type must match "Content-Type" header
-        });
-        return response.json(); // parses JSON response into native JavaScript objects
-    }
 }
