@@ -1,4 +1,6 @@
 import React, {Component} from "react";
+import { BsArrowClockwise, BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
+import ProfesoresApi from './ProfesoresApi';
 
 export default class NewProfesor extends Component 
 {
@@ -8,11 +10,15 @@ export default class NewProfesor extends Component
         this.state = {
             identificacion:"", 
             nombre:"", 
-            password:"", 
+            password:"",
+            mostrarPassword: true
         };
 
         this.changeProfesor = this.changeProfesor.bind(this);
         this.clickAdd = this.clickAdd.bind(this);
+        this.generarPassword = this.generarPassword.bind(this);
+        this.mostrarPassword = this.mostrarPassword.bind(this);
+        this.ocultarPassword = this.ocultarPassword.bind(this);
     }
 
     changeProfesor(event)
@@ -30,7 +36,47 @@ export default class NewProfesor extends Component
         this.setState({
             identificacion:"", 
             nombre:"", 
-            password:""
+            password:"",
+            mostrarPassword: false
+        });
+    }
+
+    generarPassword()
+    {
+        console.log("generarPassword");
+
+        ProfesoresApi.getNewPassword().then(
+            (result) => {
+                console.log(result);
+                
+                this.setState({
+                    password: result.password
+                });
+            },
+            (error) => {
+                /*
+                this.setState({
+                    errorInfo: "Problem with connection to server"
+                })
+                */
+            }
+        );
+    }
+
+    mostrarPassword()
+    {
+        console.log("mostrarPassword");
+        this.setState({
+            mostrarPassword: true
+        });
+    }
+
+
+    ocultarPassword()
+    {
+        console.log("ocultarPassword");
+        this.setState({
+            mostrarPassword: false
         });
     }
 
@@ -57,7 +103,14 @@ export default class NewProfesor extends Component
                             <input className="form-control" type="text" name="nombre" value={this.state.nombre} onChange={this.changeProfesor} />
                         </td>
                         <td>
-                            <input className="form-control" type="password" name="password" value={this.state.password} onChange={this.changeProfesor} />
+                            <div className="input-group">
+                                <input className="form-control" type={this.state.mostrarPassword ? "text" : "password"} name="password" value={this.state.password} onChange={this.changeProfesor} />
+                                <div className="input-group-append">
+                                    <button className="btn btn-outline-secondary" type="button" title="Generar" onClick={this.generarPassword}> <BsArrowClockwise /> </button>
+                                    <button className={this.state.mostrarPassword ? "btn btn-outline-secondary d-none" : "btn btn-outline-secondary"} type="button" title="Mostrar" onClick={this.mostrarPassword}> <BsFillEyeFill /> </button>
+                                    <button className={this.state.mostrarPassword ? "btn btn-outline-secondary" : "btn btn-outline-secondary d-none"} type="button" title="Ocultar" onClick={this.ocultarPassword}> <BsFillEyeSlashFill /> </button>
+                                </div>
+                            </div>
                         </td>
                         <td>
                             <button className="btn btn-primary" onClick={this.clickAdd} >Agregar Profesor</button>
