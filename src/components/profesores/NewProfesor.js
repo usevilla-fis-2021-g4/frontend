@@ -11,7 +11,7 @@ export default class NewProfesor extends Component
             identificacion:"", 
             nombre:"", 
             password:"",
-            mostrarPassword: true
+            mostrarPassword: false
         };
 
         this.changeProfesor = this.changeProfesor.bind(this);
