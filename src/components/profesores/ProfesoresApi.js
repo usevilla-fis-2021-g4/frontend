@@ -32,6 +32,28 @@ export default class ProfesoresApi
         return response.json();
     }
 
+    static async getNewPassword()
+    {
+        const headers = ProfesoresApi.requestHeaders();
+        const request = new Request(ProfesoresApi.API_BASE_URL + "/password", {
+            method: "GET",
+            headers: headers
+        });
+
+        const response = await fetch(request);
+
+        console.log(response);
+        console.log(response.ok);
+
+        if(response.ok !== true)
+        {
+            console.log("pasó por la excepcion");
+            throw Error(response.statusText);
+        }
+
+        return response.json();
+    }
+
     static async addProfesor(profesor)
     {
         console.log("ProfesoresApi.addProfesor", profesor);
