@@ -114,6 +114,28 @@ export default class ProfesoresApi
         return response;
     }
 
+    static async getIdentificacionProfesor(profesor)
+    {
+        const headers = ProfesoresApi.requestHeaders();
+        const request = new Request(ProfesoresApi.API_BASE_URL + "/profesores/"+profesor._id+"/identificacion", {
+            method: "GET",
+            headers: headers
+        });
+
+        const response = await fetch(request);
+
+        console.log(response);
+        console.log(response.ok);
+
+        if(response.ok !== true)
+        {
+            console.log("pasó por la excepcion");
+            throw Error(response.statusText);
+        }
+
+        return response.json();
+    }
+
     static async updateProfesor(profesor)
     {
         console.log("ProfesoresApi.updateProfesor", profesor);
