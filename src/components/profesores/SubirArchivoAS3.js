@@ -21,16 +21,25 @@ export default class SubirArchivoAS3 extends Component {
 
     subirArchivo(e)
     {
-        console.log("SubirArchivoAS3.subirArchivo");
-        console.log(e.target.files[0]);
+        //console.log("SubirArchivoAS3.subirArchivo");
+        //console.log(e.target.files[0]);
         var file = e.target.files[0];
-        console.log("file");
-        console.log(file);
+        //console.log("file");
+        //console.log(file);
         var profesor = this.props.profesor;
-        console.log("profesor");
-        console.log(profesor);
+        //console.log("profesor");
+        //console.log(profesor);
 
-        ProfesoresApi.uploadIdentificacionProfesor(profesor, file);
+        ProfesoresApi.uploadIdentificacionProfesor(profesor, file)
+        .then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+            //console.log("data");
+            //console.log(data);
+            var profesorActualizado = data;
+            this.props.onImageAdded(profesorActualizado);
+        });
     }
 
     render()

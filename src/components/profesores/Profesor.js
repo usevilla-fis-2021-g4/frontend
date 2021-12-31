@@ -15,7 +15,7 @@ export default class Profesor extends Component
                 <td>
                     { (this.props.profesor.editable === true || typeof this.props.profesor.editable === 'undefined') ? <button className="btn btn-outline-secondary" onClick={() => this.props.onEdit(this.props.profesor)} title="Editar" > <BsFillPencilFill /> </button> : ""}
                     { (this.props.profesor.editable === true || typeof this.props.profesor.editable === 'undefined') ? <button className="btn btn-outline-secondary" onClick={() => this.props.onDelete(this.props.profesor)} title="Eliminar" ><BsFillTrashFill /> </button> : ""}
-                    { (this.props.profesor.editable === true || typeof this.props.profesor.editable === 'undefined') ? <SubirArchivoAS3 profesor={this.props.profesor} /> : ""}
+                    { (this.props.profesor.editable === true || typeof this.props.profesor.editable === 'undefined') ? <SubirArchivoAS3 profesor={this.props.profesor} onImageAdded={this.props.onImageAdded} /> : ""}
                     { (this.props.profesor.editable === true || typeof this.props.profesor.editable === 'undefined') ? <ImagenIdentificacion profesor={this.props.profesor} /> : ""}
                 </td>
             </tr>

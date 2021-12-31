@@ -25,6 +25,7 @@ export default class Profesores extends Component {
         this.handleEditCancel = this.handleEditCancel.bind(this);
         this.handleEditChange = this.handleEditChange.bind(this);
         this.handleEditSave = this.handleEditSave.bind(this);
+        this.handleImageAdded = this.handleImageAdded.bind(this);
     }
 
     componentDidMount()
@@ -91,15 +92,21 @@ export default class Profesores extends Component {
         //corrección de datos faltantes que deben ir al backend
         profesor["editable"] = true;
 
-        ProfesoresApi.addProfesor(profesor).then(
-            (response) => {
+        ProfesoresApi.addProfesor(profesor)
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
                 console.log("agregó el profesor");
+                //console.log("data[0]");
+                //console.log(data[0]);
+                var nuevoProfesor = data[0];
 
                 this.setState(prevState => {
                     console.log("pasó por el punto 1");
                     const profesores = prevState.profesores;
 
-                    profesor["_id"] = prevState.profesores.length + 1;
+                    profesor["_id"] = nuevoProfesor._id;
         
                     if(!profesores.find(p => p.identificacion === profesor.identificacion))
                     {
@@ -111,8 +118,8 @@ export default class Profesores extends Component {
                     }
                 });
                 
-            },
-            (error) => {
+            })
+            .catch((error) => {
                 console.log("Algo salió mal al agregar el profesor");
                 //console.log(error.message);
                 
@@ -182,6 +189,22 @@ export default class Profesores extends Component {
         );
     }
 
+    handleImageAdded(profesor)
+    {
+        console.log("handleImageAdded");
+        console.log(profesor);
+
+        this.setState(prevState => {
+
+            const profesores = prevState.profesores;
+            const pos = profesores.findIndex(p  => p._id ===  profesor._id);
+
+            return {
+                profesores: [...profesores.slice(0, pos), Object.assign({}, profesor), ...profesores.slice(pos + 1)]
+            };
+        });
+    }
+
     render()
     {
     
@@ -209,7 +232,12 @@ export default class Profesores extends Component {
                         {this.state.profesores.map((profesor) => 
                             
                             !this.state.isEditing[profesor._id] ?
-                            <Profesor profesor={profesor} onEdit={this.handleEdit} onDelete={this.handleDelete} key={profesor._id} />
+                            <Profesor 
+                                profesor={profesor} 
+                                onEdit={this.handleEdit} 
+                                onDelete={this.handleDelete} 
+                                onImageAdded={this.handleImageAdded} 
+                                key={profesor._id} />
                             :
                             <EditProfesor 
                                 profesor={this.state.isEditing[profesor._id]} 
