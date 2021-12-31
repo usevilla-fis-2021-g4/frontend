@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import { BsArrowClockwise, BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
+import { FaPlusSquare } from "react-icons/fa";
 import ProfesoresApi from './ProfesoresApi';
 
 export default class NewProfesor extends Component 
@@ -113,7 +114,7 @@ export default class NewProfesor extends Component
                             </div>
                         </td>
                         <td>
-                            <button className="btn btn-primary" onClick={this.clickAdd} >Agregar Profesor</button>
+                            <button className="btn btn-outline-secondary" onClick={this.clickAdd} title="Agregar Profesor" > <FaPlusSquare/></button>
                         </td>
                     </tr>
                 </tbody>

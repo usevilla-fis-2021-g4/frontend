@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import { FaSave, FaBan } from "react-icons/fa";
 
 export default class EditProfesor extends Component {
 
@@ -27,8 +28,8 @@ export default class EditProfesor extends Component {
                     <input className="form-control" type="password" name="password" value={this.props.profesor.password} onChange={this.handleChange} />
                 </td>
                 <td>
-                    <button className="btn btn-primary" onClick={() => this.props.onSave(this.props.profesor)} >Save</button>
-                    <button className="btn btn-primary" onClick={() => this.props.onCancel(this.props.profesor)} >Cancel</button>
+                    <button className="btn btn-outline-secondary" onClick={() => this.props.onSave(this.props.profesor)} title="Guardar" > <FaSave /> </button>
+                    <button className="btn btn-outline-secondary" onClick={() => this.props.onCancel(this.props.profesor)} title="Cancel" >  <FaBan />  </button>
                 </td>
             </tr>
         );

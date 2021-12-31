@@ -25,6 +25,7 @@ export default class Profesores extends Component {
         this.handleEditCancel = this.handleEditCancel.bind(this);
         this.handleEditChange = this.handleEditChange.bind(this);
         this.handleEditSave = this.handleEditSave.bind(this);
+        this.handleImageAdded = this.handleImageAdded.bind(this);
     }
 
     componentDidMount()
@@ -91,15 +92,21 @@ export default class Profesores extends Component {
         //corrección de datos faltantes que deben ir al backend
         profesor["editable"] = true;
 
-        ProfesoresApi.addProfesor(profesor).then(
-            (response) => {
+        ProfesoresApi.addProfesor(profesor)
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
                 console.log("agregó el profesor");
+                //console.log("data[0]");
+                //console.log(data[0]);
+                var nuevoProfesor = data[0];
 
                 this.setState(prevState => {
                     console.log("pasó por el punto 1");
                     const profesores = prevState.profesores;
 
-                    profesor["_id"] = prevState.profesores.length + 1;
+                    profesor["_id"] = nuevoProfesor._id;
         
                     if(!profesores.find(p => p.identificacion === profesor.identificacion))
                     {
@@ -111,8 +118,8 @@ export default class Profesores extends Component {
                     }
                 });
                 
-            },
-            (error) => {
+            })
+            .catch((error) => {
                 console.log("Algo salió mal al agregar el profesor");
                 //console.log(error.message);
                 
@@ -182,6 +189,22 @@ export default class Profesores extends Component {
         );
     }
 
+    handleImageAdded(profesor)
+    {
+        console.log("handleImageAdded");
+        console.log(profesor);
+
+        this.setState(prevState => {
+
+            const profesores = prevState.profesores;
+            const pos = profesores.findIndex(p  => p._id ===  profesor._id);
+
+            return {
+                profesores: [...profesores.slice(0, pos), Object.assign({}, profesor), ...profesores.slice(pos + 1)]
+            };
+        });
+    }
+
     render()
     {
     
@@ -209,7 +232,12 @@ export default class Profesores extends Component {
                         {this.state.profesores.map((profesor) => 
                             
                             !this.state.isEditing[profesor._id] ?
-                            <Profesor profesor={profesor} onEdit={this.handleEdit} onDelete={this.handleDelete} key={profesor._id} />
+                            <Profesor 
+                                profesor={profesor} 
+                                onEdit={this.handleEdit} 
+                                onDelete={this.handleDelete} 
+                                onImageAdded={this.handleImageAdded} 
+                                key={profesor._id} />
                             :
                             <EditProfesor 
                                 profesor={this.state.isEditing[profesor._id]} 
@@ -227,58 +255,5 @@ export default class Profesores extends Component {
 
     }
 
-    /*
-
-    state = {
-        profesores: []
-    }
-
-    async componentDidMount(){
-        //var url = 'https://api-usevilla-fis-2021-g4-juancarlosestradanieto.cloud.okteto.net/api/v1/profesores';
-        var url = 'http://localhost:3000/api/v1/profesores';
-        const response = await fetch(url, {
-	        'mode': 'cors',
-	        'headers': {
-            	'Access-Control-Allow-Origin': '*',
-        	}
-    	});
-        const data = await response.json();
-        console.log(data);
-        this.setState({profesores: data});
-    }
-    
-    render()
-    {
-        return (
-            <div>
-                <h5>Profesores Registrados</h5>
-                <br/>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>identificacion</th>
-                            <th>nombre</th>
-                            <th>editable</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {
-                        this.state.profesores.map(profesor => {
-                            return (
-                                <tr key="{profesor.identificacion}">
-                                    <td>{profesor.identificacion}</td>
-                                    <td>{profesor.nombre}</td>
-                                    <td>{profesor.editable}</td>
-                                </tr>
-                            )
-                        })
-                    }
-                    </tbody>
-                </table>
-
-            </div>
-        );
-    }
-    */
 }
     
