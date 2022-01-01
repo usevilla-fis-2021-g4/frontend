@@ -1,6 +1,6 @@
 export default class ProfesoresApi
 {
-    static API_BASE_URL = "/api/v1";
+    static API_BASE_URL = "/apiprofesores/v1";
 
     static requestHeaders(contentType = "application/json")
     {
