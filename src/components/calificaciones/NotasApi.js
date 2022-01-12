@@ -127,7 +127,7 @@ export default class NotasApi{
         return response.json();
     }
 
-    /**Metodo PATCH nota - modifica */
+    /**Metodo PUT nota - modifica */
     static async updateNota(nota){
         console.log("metodo modifica nota");
         
