@@ -88,8 +88,7 @@ export default class Notas extends Component {
                     console.log("pasó por el punto 1");
                     const notas = prevState.notas;
 
-                    notas["_id"] = nuevaNota._id;
-        
+                    //notas["_id"] = nuevaNota._id;
                     if(!notas.find(p => p.identificacion  === nota.identificacion )){
                         console.log("pasó por el punto 2", nota);             
 
