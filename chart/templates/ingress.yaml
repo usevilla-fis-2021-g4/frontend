@@ -21,7 +21,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: /apiestudiantes
+                name: apiestudiantes
                 port:
                   number: 8080
           - path: /apiprofesores
