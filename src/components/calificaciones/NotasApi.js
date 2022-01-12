@@ -108,7 +108,7 @@ export default class NotasApi{
     
     static async getIdentificacionNota(nota){
         const headers = NotasApi.requestHeaders();
-        const request = new Request(NotasApi.API_BASE_URL + "/notas/"+nota._id+"/identificacion", {
+        const request = new Request(NotasApi.API_BASE_URL + "/notas/"+nota._id+"/imagen", {
             method: "GET",
             headers: headers
         });
@@ -133,7 +133,7 @@ export default class NotasApi{
         
         const headers = NotasApi.requestHeaders();
         const request = new Request(NotasApi.API_BASE_URL + "/notas/"+nota._id, {
-            method: "PATCH",
+            method: "PUT",
             headers: headers,
             body: JSON.stringify(nota)
         });
