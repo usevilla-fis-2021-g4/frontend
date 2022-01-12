@@ -1,39 +1,38 @@
 import React, {Component} from "react";
 
-import Profesor from './Profesor';
+import Materia from './Materia';
 import Alert from './Alert';
-import NewProfesor from './NewProfesor';
-import EditProfesor from './EditProfesor';
-import ProfesoresApi from './ProfesoresApi';
+import NewMateria from './NewMateria';
+import EditMateria from './EditMateria';
+import MateriasApi from './MateriasApi';
 
-export default class Profesores extends Component {
+export default class Materias extends Component {
 
     constructor(props)
     {
         super(props);
         this.state = {
             errorInfo: null,
-            profesores: [],
+            materias: [],
             isEditing: {}
         };
 
         this.handleEdit = this.handleEdit.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
         this.handleCloseError = this.handleCloseError.bind(this);
-        this.addProfesor = this.addProfesor.bind(this);
+        this.addMateria = this.addMateria.bind(this);
 
         this.handleEditCancel = this.handleEditCancel.bind(this);
         this.handleEditChange = this.handleEditChange.bind(this);
         this.handleEditSave = this.handleEditSave.bind(this);
-        this.handleImageAdded = this.handleImageAdded.bind(this);
     }
 
     componentDidMount()
     {
-        ProfesoresApi.getAllProfesores().then(
+        MateriasApi.getAllMaterias().then(
             (result) => {
                 this.setState({
-                    profesores: result
+                    materias: result
                 });
             },
             (error) => {
@@ -44,31 +43,31 @@ export default class Profesores extends Component {
         );
     }
 
-    handleEdit(profesor)
+    handleEdit(materia)
     {
         this.setState(prevState => {
 
             return ({
-                isEditing: {...prevState.isEditing, [profesor._id]: profesor} 
+                isEditing: {...prevState.isEditing, [materia._id]: materia} 
             });
 
         });
     }
 
-    handleDelete(profesor)
+    handleDelete(materia)
     {
         console.log("handleDelete");
-        console.log("pasó por Porfesor.js handleDelete, profesor "+profesor.identificacion);
+        console.log("pasó por Materia.js handleDelete, materia "+materia.nombre);
 
 
-        ProfesoresApi.deleteProfesor(profesor).then(
+       MateriasApi.deleteMateria(materia).then(
             (response) =>
             {
                 console.log("response");
                 console.log(response);
                 console.log("el servidor respondió bien, ahora si modifico el estado");
                 this.setState(prevState => ({
-                    profesores: prevState.profesores.filter((p) => p._id !== profesor._id)
+                    materias: prevState.materias.filter((m) => m._id !== materia._id)
                 }));
             } ,
             (error) =>
@@ -85,42 +84,43 @@ export default class Profesores extends Component {
         });
     }
 
-    addProfesor(profesor)
+    addMateria(materia)
     {
-        console.log("addProfesor");
+        
+        console.log("addMateria");
 
         //corrección de datos faltantes que deben ir al backend
-        profesor["editable"] = true;
+        materia["editable"] = true;
 
-        ProfesoresApi.addProfesor(profesor)
+        MateriasApi.addMateria(materia)
             .then((response) => {
                 return response.json();
             })
             .then((data) => {
-                console.log("agregó el profesor");
-                //console.log("data[0]");
-                //console.log(data[0]);
-                var nuevoProfesor = data[0];
+                console.log("agregó la materia");
+                var nuevaMateria = data;
 
                 this.setState(prevState => {
                     console.log("pasó por el punto 1");
-                    const profesores = prevState.profesores;
+                    const materias = prevState.materias;
 
-                    profesor["_id"] = nuevoProfesor._id;
-        
-                    if(!profesores.find(p => p.identificacion === profesor.identificacion))
+                    materia["_id"] = nuevaMateria._id;
+                    console.log("Materia tiene el _ID "+materia["_id"]+" y nuevaMateria "+nuevaMateria._id);
+                    if(!materias.find(m => m.nombre === materia.nombre))
                     {
-                        console.log("pasó por el punto 2", profesor);             
+                        console.log("pasó por el punto 2", materia);             
 
                         return ({
-                            profesores: [...prevState.profesores, profesor]
+                            materias: [...prevState.materias, materia]
+                            
                         });
                     }
+
                 });
                 
             })
             .catch((error) => {
-                console.log("Algo salió mal al agregar el profesor");
+                console.log("Algo salió mal al agregar la materia");
                 //console.log(error.message);
                 
                 this.setState(prevState => {
@@ -133,45 +133,45 @@ export default class Profesores extends Component {
 
     }
 
-    handleEditCancel(profesor)
+    handleEditCancel(materia)
     {
-        console.log("pasó por Porfesor.js handleEditCancel, profesor "+profesor.identificacion);
+        console.log("pasó por Materia.js handleEditCancel, materia "+ materia.nombre);
         this.setState(prevState => {
             const isEditing = Object.assign({}, prevState.isEditing);
-            delete isEditing[profesor._id];
+            delete isEditing[materia._id];
             return {
                 isEditing: isEditing
             }
         })
     }
 
-    handleEditChange(profesor)
+    handleEditChange(materia)
     {
-        //console.log("pasó por Porfesor.js handleEditChange, profesor "+profesor.identificacion);
+        //console.log("pasó por Materia.js handleEditChange, materia "+materia.nombre);
         this.setState(prevState => ({
-            isEditing: {...prevState.isEditing, [profesor._id]: profesor}
+            isEditing: {...prevState.isEditing, [materia._id]: materia}
         }));
     }
 
-    handleEditSave(profesor)
+    handleEditSave(materia)
     {
-        //console.log("pasó por Porfesor.js handleEditSave, profesor "+profesor.identificacion);
+        //console.log("pasó por Porfesor.js handleEditSave, materia "+materia.nombre);
 
 
-        ProfesoresApi.updateProfesor(profesor).then(
+        MateriasApi.updateMateria(materia).then(
             (response) => {
-                console.log("Editó el profesor");
+                console.log("Editó la materia");
 
                 this.setState(prevState => {
 
                     const isEditing = Object.assign({}, prevState.isEditing);
-                    delete isEditing[profesor._id];
+                    delete isEditing[materia._id];
         
-                    const profesores = prevState.profesores;
-                    const pos = profesores.findIndex(p  => p._id ===  profesor._id);
+                    const materias = prevState.materias;
+                    const pos = materias.findIndex(m  => m._id ===  materia._id);
         
                     return {
-                        profesores: [...profesores.slice(0, pos), Object.assign({}, profesor), ...profesores.slice(pos + 1)],
+                        materias: [...materias.slice(0, pos), Object.assign({}, materia), ...materias.slice(pos + 1)],
                         isEditing: isEditing
                     };
                 });
@@ -189,22 +189,6 @@ export default class Profesores extends Component {
         );
     }
 
-    handleImageAdded(profesor)
-    {
-        console.log("handleImageAdded");
-        console.log(profesor);
-
-        this.setState(prevState => {
-
-            const profesores = prevState.profesores;
-            const pos = profesores.findIndex(p  => p._id ===  profesor._id);
-
-            return {
-                profesores: [...profesores.slice(0, pos), Object.assign({}, profesor), ...profesores.slice(pos + 1)]
-            };
-        });
-    }
-
     render()
     {
     
@@ -212,39 +196,34 @@ export default class Profesores extends Component {
             <div>
                 <Alert message={this.state.errorInfo} onClose={this.handleCloseError} />
 
-                <NewProfesor onAddProfesor={this.addProfesor} />
+                <NewMateria onAddMateria={this.addMateria} />
 
                 <br/>
 
                 <table className="table table-bordered table-striped table-hover" >
                     <thead>
                         <tr colSpan="3">
-                            <th>Lista Profesores</th>
+                            <th>Lista de Materias</th>
                         </tr>
                         <tr>
-                            <th>identificacion</th>
-                            <th>nombre</th>
-                            <th>password</th>
+                            <th>Nombre</th>
+                            <th>Descripcion</th>
+                            <th>Area</th>
                             <th>&nbsp;</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {this.state.profesores.map((profesor) => 
+                        {this.state.materias.map((materia) => 
                             
-                            !this.state.isEditing[profesor._id] ?
-                            <Profesor 
-                                profesor={profesor} 
-                                onEdit={this.handleEdit} 
-                                onDelete={this.handleDelete} 
-                                onImageAdded={this.handleImageAdded} 
-                                key={profesor._id} />
+                            !this.state.isEditing[materia._id] ?
+                            <Materia materia={materia} onEdit={this.handleEdit} onDelete={this.handleDelete} key={materia._id} />
                             :
-                            <EditProfesor 
-                                profesor={this.state.isEditing[profesor._id]} 
+                            <EditMateria 
+                            materia={this.state.isEditing[materia._id]} 
                                 onCancel={this.handleEditCancel} 
                                 onSave={this.handleEditSave} 
                                 onChange={this.handleEditChange}
-                                key={profesor._id} />
+                                key={materia._id} />
                         )}
                         
                     </tbody>
