@@ -23,4 +23,18 @@ spec:
               service:
                 name: /apiestudiantes
                 port:
+                  number: 8080
+          - path: /apiprofesores
+            pathType: Prefix
+            backend:
+              service:
+                name: apiprofesores
+                port:
                   number: 3000
+          - path: /apimaterias
+            pathType: Prefix
+            backend:
+              service:
+                name: apimaterias
+                port:
+                  number: 2999
