@@ -24,3 +24,10 @@ spec:
                 name: apiprofesores
                 port:
                   number: 3000
+          - path: /apimaterias
+            pathType: Prefix
+            backend:
+              service:
+                name: apimaterias
+                port:
+                  number: 2999
