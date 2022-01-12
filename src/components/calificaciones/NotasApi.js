@@ -86,7 +86,7 @@ export default class NotasApi{
         const headers = {
             "apikey": headers1.apikey
         };
-        const request = new Request(NotasApi.API_BASE_URL + "/notas/"+nota._id+"/identificacion", {
+        const request = new Request(NotasApi.API_BASE_URL + "/notas/"+nota._id+"/imagen", {
             method: "POST",
             headers: headers,
             body: formData
@@ -98,7 +98,7 @@ export default class NotasApi{
         console.log(response.ok);
 
         if(response.ok !== true)
-        {
+        { 
             console.log("error-excepcion");
             throw Error(response.statusText);
         }        
