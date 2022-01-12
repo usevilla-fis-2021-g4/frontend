@@ -76,20 +76,25 @@ export default class Notas extends Component {
     }
 
     addNota(nota){
+        nota["editable"] = true;
         NotasApi.addNota(nota)
             .then((response) => {
                 return response.json();
             })
             .then((data) => {
                 console.log("agregó la nota");
-                let nuevaNota = data[0];
+                //console.log("data[0]");
+                //console.log(data[0]);
+                var nuevaNota = data;
 
                 this.setState(prevState => {
                     console.log("pasó por el punto 1");
                     const notas = prevState.notas;
 
-                    //notas["_id"] = nuevaNota._id;
-                    if(!notas.find(p => p.identificacion  === nota.identificacion )){
+                    nota["_id"] = nuevaNota._id;
+        
+                    if(!notas.find(p => p.alumno === nota.alumno))
+                    {
                         console.log("pasó por el punto 2", nota);             
 
                         return ({
@@ -100,7 +105,9 @@ export default class Notas extends Component {
                 
             })
             .catch((error) => {
-                console.log("Algo salió mal al agregar la nota");
+                console.log("Algo salió mal en el put");
+                //console.log(error.message);
+                
                 this.setState(prevState => {
                     return ({
                         errorInfo: error.message
