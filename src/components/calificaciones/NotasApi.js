@@ -80,7 +80,6 @@ export default class NotasApi{
     static async uploadIdentificacionNota(nota, file){
         let formData = new FormData();
      
-        //formData.append("identificacion", file);
         formData.append("imagen", file);
         const headers1 = NotasApi.requestHeaders("multipart/form-data");
         const headers = {
