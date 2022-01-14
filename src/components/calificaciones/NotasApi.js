@@ -1,9 +1,9 @@
 export default class NotasApi{
     static API_BASE_URL = "/apinotas/v1";
 
-    static requestHeaders(){
+    static requestHeaders(contentType = "application/json"){
         return {
-            'Content-Type': "application/json",
+            'Content-Type': contentType,
             'apikey': "0ffe8ae7-50c5-40d8-9e78-ea2ce989c22c"
         };
     } 
