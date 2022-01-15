@@ -31,3 +31,10 @@ spec:
                 name: apimaterias
                 port:
                   number: 2999
+          - path: /apinotas
+            pathType: Prefix
+            backend:
+              service:
+                name: apinotas
+                port:
+                  number: 3000

@@ -1,9 +1,9 @@
 export default class NotasApi{
     static API_BASE_URL = "/apinotas/v1";
 
-    static requestHeaders(){
+    static requestHeaders(contentType = "application/json"){
         return {
-            'Content-Type': "application/json",
+            'Content-Type': contentType,
             'apikey': "0ffe8ae7-50c5-40d8-9e78-ea2ce989c22c"
         };
     } 
@@ -80,13 +80,12 @@ export default class NotasApi{
     static async uploadIdentificacionNota(nota, file){
         let formData = new FormData();
      
-        formData.append("identificacion", file);
-        
+        formData.append("imagen", file);
         const headers1 = NotasApi.requestHeaders("multipart/form-data");
         const headers = {
             "apikey": headers1.apikey
         };
-        const request = new Request(NotasApi.API_BASE_URL + "/notas/"+nota._id+"/identificacion", {
+        const request = new Request(NotasApi.API_BASE_URL + "/notas/"+nota._id+"/imagen", {
             method: "POST",
             headers: headers,
             body: formData
@@ -98,7 +97,7 @@ export default class NotasApi{
         console.log(response.ok);
 
         if(response.ok !== true)
-        {
+        { 
             console.log("error-excepcion");
             throw Error(response.statusText);
         }        
@@ -108,7 +107,7 @@ export default class NotasApi{
     
     static async getIdentificacionNota(nota){
         const headers = NotasApi.requestHeaders();
-        const request = new Request(NotasApi.API_BASE_URL + "/notas/"+nota._id+"/identificacion", {
+        const request = new Request(NotasApi.API_BASE_URL + "/notas/"+nota._id+"/imagen", {
             method: "GET",
             headers: headers
         });
@@ -127,13 +126,13 @@ export default class NotasApi{
         return response.json();
     }
 
-    /**Metodo PATCH nota - modifica */
+    /**Metodo PUT nota - modifica */
     static async updateNota(nota){
         console.log("metodo modifica nota");
         
         const headers = NotasApi.requestHeaders();
         const request = new Request(NotasApi.API_BASE_URL + "/notas/"+nota._id, {
-            method: "PATCH",
+            method: "PUT",
             headers: headers,
             body: JSON.stringify(nota)
         });
