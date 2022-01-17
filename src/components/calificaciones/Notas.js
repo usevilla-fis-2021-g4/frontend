@@ -15,9 +15,15 @@ export default class Notas extends Component {
         super(props);
         this.state = {
             errorInfo: null,
-            notas: [],
-            estudiantes: [],
-            materias: [],
+            notas: [{alumno: "Manuel", asignatura: "Conocimiento del Medio", nota: "Buena", _id: "61e4a78e8d6a41a07a89db93" }],
+            estudiantes: [
+                {nombre: "Manuel", identificacion: 1231231, _id: 'qweqweqew'},
+                {nombre: "Pedro", identificacion: 5465465, _id: 'asdasdasda'}
+            ],
+            materias: [
+                {area: "Algo",descripcion: "Conocimiento del Medio",nombre: "Conocimiento del Medio", _id: 123123},
+                {area: "Algo",descripcion: "Conocimiento del Alto",nombre: "Conocimiento del Alto", _id: 456456}
+            ],
             isEditing: {}
         };
 
@@ -248,9 +254,7 @@ export default class Notas extends Component {
                             
                             !this.state.isEditing[nota._id] ?
                             <Nota 
-                                nota={nota} 
-                                estudiantes={this.state.estudiantes}
-                                materias={this.state.materias}
+                                nota={nota}
                                 onEdit={this.handleEdit} 
                                 onDelete={this.handleDelete} 
                                 onImageAdded={this.handleImageAdded} 
@@ -258,7 +262,7 @@ export default class Notas extends Component {
                             :
                             <EditNota
                                 nota={this.state.isEditing[nota._id]} 
-                                estudiantes={this.state.studiantes}
+                                estudiantes={this.state.estudiantes}
                                 materias={this.state.materias}
                                 onCancel={this.handleEditCancel} 
                                 onSave={this.handleEditSave} 

@@ -9,6 +9,7 @@ export default class EditNota extends Component {
     }
 
     handleChange(event) {
+        console.log(event);
         this.props.onChange({ ...this.props.nota, [event.target.name]: event.target.value });
     }
 
@@ -16,8 +17,7 @@ export default class EditNota extends Component {
         return (
             <tr>
                 <td>
-                    <select name="alumno" className="form-control" value={this.props.nota.alumno} plaeholder="Seleccione un estudiante" onChange={this.changeNota}>
-                        <option value="0" key={0}>Cambiar Estudiante</option>
+                    <select name="alumno" className="form-control" value={this.props.nota.alumno} placeholder="Seleccione un estudiante" onChange={this.handleChange}>
                         {
                             this.props.estudiantes.map((estudiante) => (
                                 <option key={estudiante._id} value={estudiante.nombre} > {estudiante.nombre} </option>
@@ -26,20 +26,13 @@ export default class EditNota extends Component {
                     </select>
                 </td>
                 <td>
-                    <select name="asignatura" className="form-control"  value={this.props.nota.asignatura} plaeholder="Seleccione un Materia" onChange={this.changeNota}>
-                        <option value="0" key={0}>Cambiar Materia</option>
+                    <select name="asignatura" className="form-control"  value={this.props.nota.asignatura} placeholder="Seleccione un Materia" onChange={this.handleChange}>
                         {
                             this.props.materias.map((materia) => (
                                 <option key={materia._id} value={materia.nombre} > {materia.nombre} </option>
                             ))
                         }
                     </select>
-                </td>
-                <td>
-                    <input className="form-control" type="text" name="alumno" value={this.props.nota.alumno} onChange={this.handleChange} />
-                </td>
-                <td>
-                    <input className="form-control" type="text" name="asignatura" value={this.props.nota.asignatura} onChange={this.handleChange} />
                 </td>
                 <td>
                     <input className="form-control" type="text" name="nota" value={this.props.nota.nota} onChange={this.handleChange} />
