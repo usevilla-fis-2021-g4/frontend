@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import { FaSave, FaBan } from "react-icons/fa";
 
 export default class EditNota extends Component {
@@ -8,14 +8,33 @@ export default class EditNota extends Component {
         this.handleChange = this.handleChange.bind(this)
     }
 
-    handleChange(event){
-        this.props.onChange({...this.props.nota, [event.target.name]: event.target.value}); 
+    handleChange(event) {
+        this.props.onChange({ ...this.props.nota, [event.target.name]: event.target.value });
     }
 
-    render()
-    {
+    render() {
         return (
             <tr>
+                <td>
+                    <select name="alumno" className="form-control" value={this.props.nota.alumno} plaeholder="Seleccione un estudiante" onChange={this.changeNota}>
+                        <option value="0" key={0}>Cambiar Estudiante</option>
+                        {
+                            this.props.estudiantes.map((estudiante) => (
+                                <option key={estudiante._id} value={estudiante.nombre} > {estudiante.nombre} </option>
+                            ))
+                        }
+                    </select>
+                </td>
+                <td>
+                    <select name="asignatura" className="form-control"  value={this.props.nota.asignatura} plaeholder="Seleccione un Materia" onChange={this.changeNota}>
+                        <option value="0" key={0}>Cambiar Materia</option>
+                        {
+                            this.props.materias.map((materia) => (
+                                <option key={materia._id} value={materia.nombre} > {materia.nombre} </option>
+                            ))
+                        }
+                    </select>
+                </td>
                 <td>
                     <input className="form-control" type="text" name="alumno" value={this.props.nota.alumno} onChange={this.handleChange} />
                 </td>

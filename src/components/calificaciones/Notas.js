@@ -30,10 +30,15 @@ export default class Notas extends Component {
         this.handleEditChange = this.handleEditChange.bind(this);
         this.handleEditSave = this.handleEditSave.bind(this);
         this.handleImageAdded = this.handleImageAdded.bind(this);
+
+        this.setState({
+            materias: [{'_id' : 1, 'area': "Test", 'descripcion': "Test", 'nombre': "Test"}]
+        });
     }
 
     componentDidMount(){
 
+        // Getting list of EStudiantes
         EstudiantesApi.getAllEstudiantes().then(
             (result) => {
                 this.setState({
@@ -42,11 +47,12 @@ export default class Notas extends Component {
             },
             (error) => {
                 this.setState({
-                    errorInfo: "Problem with connection to server"
+                    errorInfo: "Problema al conectar con el servicio de Estudiantes"
                 })
             }
         );
 
+        // Getting list of Materias
         MateriasApi.getAllMaterias().then(
             (result) => {
                 this.setState({
@@ -55,11 +61,12 @@ export default class Notas extends Component {
             },
             (error) => {
                 this.setState({
-                    errorInfo: "Problem with connection to server"
+                    errorInfo: "Problema al conectar con el servicio de Materias"
                 })
             }
         );
 
+        // Getting list of Notas
         NotasApi.getAllNotas().then(
             (result) => {
                 this.setState({
@@ -68,7 +75,7 @@ export default class Notas extends Component {
             },
             (error) => {
                 this.setState({
-                    errorInfo: "ERROR! Problema al conectar con el servidor."
+                    errorInfo: "Problema al conectar con el servicio de Notas"
                 })
             }
         );
@@ -218,7 +225,9 @@ export default class Notas extends Component {
             <div>
                 <Alert message={this.state.errorInfo} onClose={this.handleCloseError} />
 
-                <NewNota onAddNota={this.addNota} estudiantes={this.estudiantes} materias={this.materias} />
+                <NewNota estudiantes={this.state.estudiantes} 
+                        materias={this.state.materias} 
+                        onAddNota={this.addNota} />
 
                 <br/>
 
@@ -240,8 +249,8 @@ export default class Notas extends Component {
                             !this.state.isEditing[nota._id] ?
                             <Nota 
                                 nota={nota} 
-                                estudiantes={this.estudiantes}
-                                materias={this.materias}
+                                estudiantes={this.state.estudiantes}
+                                materias={this.state.materias}
                                 onEdit={this.handleEdit} 
                                 onDelete={this.handleDelete} 
                                 onImageAdded={this.handleImageAdded} 
@@ -249,8 +258,8 @@ export default class Notas extends Component {
                             :
                             <EditNota
                                 nota={this.state.isEditing[nota._id]} 
-                                estudiantes={this.studiantes}
-                                materias={this.materias}
+                                estudiantes={this.state.studiantes}
+                                materias={this.state.materias}
                                 onCancel={this.handleEditCancel} 
                                 onSave={this.handleEditSave} 
                                 onChange={this.handleEditChange}
