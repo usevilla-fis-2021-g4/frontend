@@ -1,6 +1,6 @@
 export default class EstudiantesApi
 {
-    static API_BASE_URL = "https://apiestudiantes-estudintes2-bablybaqrtasri.cloud.okteto.net"; //"/apiestudiantes/v1";
+    static API_BASE_URL = "/apiestudiantes/v1";
 
     static requestHeaders(contentType = "application/json")
     {
