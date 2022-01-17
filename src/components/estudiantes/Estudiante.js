@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs";
-import ImagenIdentificacion from "./ImagenIdentificacion";
-import SubirArchivoAS3 from "./SubirArchivoAS3";
+
 
 export default class Estudiante extends Component 
 {
