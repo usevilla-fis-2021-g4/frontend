@@ -7,9 +7,9 @@ export default class Nota extends Component{
     render(){
         return (
             <tr>
-                <td>{this.props.nota.alumno}</td>
-                <td>{this.props.nota.asignatura}</td>
-                <td>{this.props.nota.nota}</td>
+                <td>{this.props.nota?.alumno}</td>
+                <td>{this.props.nota?.asignatura}</td>
+                <td>{this.props.nota?.nota}</td>
                 <td>
                     <button className="btn btn-outline-secondary" onClick={() => this.props.onEdit(this.props.nota)} title="Editar" > <BsFillPencilFill /> </button> 
                     <button className="btn btn-outline-secondary" onClick={() => this.props.onDelete(this.props.nota)} title="Eliminar" ><BsFillTrashFill /> </button>

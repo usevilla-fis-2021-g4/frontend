@@ -5,6 +5,9 @@ import Alert from './Alert';
 import NewNota from './NewNota';
 import EditNota from './EditNota';
 import NotasApi from './NotasApi';
+import EstudiantesApi from '../estudiantes/EstudiantesApi';
+import MateriasApi from '../materias/MateriasApi';
+
 
 export default class Notas extends Component {
 
@@ -13,6 +16,8 @@ export default class Notas extends Component {
         this.state = {
             errorInfo: null,
             notas: [],
+            estudiantes: [],
+            materias: [],
             isEditing: {}
         };
 
@@ -28,6 +33,33 @@ export default class Notas extends Component {
     }
 
     componentDidMount(){
+
+        EstudiantesApi.getAllEstudiantes().then(
+            (result) => {
+                this.setState({
+                    estudiantes: result
+                });
+            },
+            (error) => {
+                this.setState({
+                    errorInfo: "Problem with connection to server"
+                })
+            }
+        );
+
+        MateriasApi.getAllMaterias().then(
+            (result) => {
+                this.setState({
+                    materias: result
+                });
+            },
+            (error) => {
+                this.setState({
+                    errorInfo: "Problem with connection to server"
+                })
+            }
+        );
+
         NotasApi.getAllNotas().then(
             (result) => {
                 this.setState({
@@ -186,7 +218,7 @@ export default class Notas extends Component {
             <div>
                 <Alert message={this.state.errorInfo} onClose={this.handleCloseError} />
 
-                <NewNota onAddNota={this.addNota} />
+                <NewNota onAddNota={this.addNota} estudiantes={this.estudiantes} materias={this.materias} />
 
                 <br/>
 
@@ -208,6 +240,8 @@ export default class Notas extends Component {
                             !this.state.isEditing[nota._id] ?
                             <Nota 
                                 nota={nota} 
+                                estudiantes={this.estudiantes}
+                                materias={this.materias}
                                 onEdit={this.handleEdit} 
                                 onDelete={this.handleDelete} 
                                 onImageAdded={this.handleImageAdded} 
@@ -215,6 +249,8 @@ export default class Notas extends Component {
                             :
                             <EditNota
                                 nota={this.state.isEditing[nota._id]} 
+                                estudiantes={this.studiantes}
+                                materias={this.materias}
                                 onCancel={this.handleEditCancel} 
                                 onSave={this.handleEditSave} 
                                 onChange={this.handleEditChange}

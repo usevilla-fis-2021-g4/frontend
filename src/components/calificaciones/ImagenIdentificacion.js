@@ -45,7 +45,7 @@ export default class ImagenIdentificacion extends Component
             <Fragment>
 
                 { 
-                    (typeof this.props.nota.imagenIdentificacion !== "undefined" && this.props.nota.imagenIdentificacion !== "") ?
+                    (typeof this.props.nota?.imagenIdentificacion !== "undefined" && this.props.nota?.imagenIdentificacion !== "") ?
                     <Fragment>
                         <button className="btn btn-outline-secondary" onClick={() => this.monstrarIdentificacion(this.props.nota)} title="Mostrar Identificacion" > <FaIdCard/> </button>
 

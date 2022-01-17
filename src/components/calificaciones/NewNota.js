@@ -11,6 +11,9 @@ export default class NewNota extends Component{
             nota:""
         };
 
+        this.estudiantes = this.props.estudiante || [];
+        this.materias = this.props.materias || [];
+
         this.changeNota = this.changeNota.bind(this);
         this.clickAdd = this.clickAdd.bind(this);
     }
@@ -48,11 +51,31 @@ export default class NewNota extends Component{
                 <tbody>
                     <tr>
                         <td>
+                            <select  name="alumno" className="form-control" plaeholder="Seleccione un estudiante" onChange={this.changeNota}>
+                                <option value="0" key={0}>Seleccione un estudiante</option>
+                                {
+                                    this.estudiantes.map((estudiante)=> (
+                                         <option key={estudiante._id} value={estudiante.nombre} > {estudiante.nombre} </option>
+                                    ))
+                                }
+                            </select>
+                        </td>
+                        <td>
+                            <select  name="asignatura" className="form-control" plaeholder="Seleccione un Materia" onChange={this.changeNota}>
+                                <option value="0" key={0}>Seleccione una Materia</option>
+                                {
+                                    this.materias.map((materia)=> (
+                                         <option key={materia._id} value={materia.nombre} > {materia.nombre} </option>
+                                    ))
+                                }
+                            </select>
+                        </td>
+                        {/* <td>
                             <input className="form-control" type="text" name="alumno" value={this.state.alumno} onChange={this.changeNota} />
                         </td>
                         <td>
                             <input className="form-control" type="text" name="asignatura" value={this.state.asignatura} onChange={this.changeNota} />
-                        </td>
+                        </td> */}
                         <td>
                             <input className="form-control" type="text" name="nota" value={this.state.nota} onChange={this.changeNota} />
                         </td>
