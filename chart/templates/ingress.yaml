@@ -38,3 +38,10 @@ spec:
                 name: apinotas
                 port:
                   number: 3000
+          - path: /apiestudiantes
+            pathType: Prefix
+            backend:
+              service:
+                name: apiestudiantes
+                port:
+                  number: 3000
