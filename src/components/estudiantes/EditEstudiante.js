@@ -24,9 +24,7 @@ export default class EditEstudiante extends Component {
                 <td>
                     <input className="form-control" type="text" name="nombre" value={this.props.estudiante.nombre} onChange={this.handleChange} />
                 </td>
-                <td>
-                    <input className="form-control" type="password" name="password" value={this.props.estudiante.password} onChange={this.handleChange} />
-                </td>
+                
                 <td>
                     <button className="btn btn-outline-secondary" onClick={() => this.props.onSave(this.props.estudiante)} title="Guardar" > <FaSave /> </button>
                     <button className="btn btn-outline-secondary" onClick={() => this.props.onCancel(this.props.estudiante)} title="Cancel" >  <FaBan />  </button>

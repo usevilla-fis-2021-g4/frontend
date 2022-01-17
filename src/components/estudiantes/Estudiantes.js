@@ -224,7 +224,7 @@ export default class Estudiantes extends Component {
                         <tr>
                             <th>identificacion</th>
                             <th>nombre</th>
-                            <th>password</th>
+                
                             <th>&nbsp;</th>
                         </tr>
                     </thead>

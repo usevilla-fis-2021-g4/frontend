@@ -33,27 +33,6 @@ export default class EstudiantesApi
         return response.json();
     }
 
-    static async getNewPassword()
-    {
-        const headers = EstudiantesApi.requestHeaders();
-        const request = new Request(EstudiantesApi.API_BASE_URL + "/password", {
-            method: "GET",
-            headers: headers
-        });
-
-        const response = await fetch(request);
-
-        console.log(response);
-        console.log(response.ok);
-
-        if(response.ok !== true)
-        {
-            console.log("pasó por la excepcion");
-            throw Error(response.statusText);
-        }
-
-        return response.json();
-    }
 
     static async addEstudiante(estudiante)
     {

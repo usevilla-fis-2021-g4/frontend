@@ -10,16 +10,11 @@ export default class NewEstudiante extends Component
         super(props);
         this.state = {
             identificacion:"", 
-            nombre:"", 
-            password:"",
-            mostrarPassword: false
+            nombre:""
         };
 
         this.changeEstudiante = this.changeEstudiante.bind(this);
         this.clickAdd = this.clickAdd.bind(this);
-        this.generarPassword = this.generarPassword.bind(this);
-        this.mostrarPassword = this.mostrarPassword.bind(this);
-        this.ocultarPassword = this.ocultarPassword.bind(this);
     }
 
     changeEstudiante(event)
@@ -36,50 +31,10 @@ export default class NewEstudiante extends Component
         this.props.onAddEstudiante(this.state);
         this.setState({
             identificacion:"", 
-            nombre:"", 
-            password:"",
-            mostrarPassword: false
+            nombre:""
         });
     }
 
-    generarPassword()
-    {
-        console.log("generarPassword");
-
-        EstudiantesApi.getNewPassword().then(
-            (result) => {
-                console.log(result);
-                
-                this.setState({
-                    password: result.password
-                });
-            },
-            (error) => {
-                /*
-                this.setState({
-                    errorInfo: "Problem with connection to server"
-                })
-                */
-            }
-        );
-    }
-
-    mostrarPassword()
-    {
-        console.log("mostrarPassword");
-        this.setState({
-            mostrarPassword: true
-        });
-    }
-
-
-    ocultarPassword()
-    {
-        console.log("ocultarPassword");
-        this.setState({
-            mostrarPassword: false
-        });
-    }
 
     render()
     {
@@ -92,7 +47,7 @@ export default class NewEstudiante extends Component
                     <tr>
                         <th>identificacion</th>
                         <th>nombre</th>
-                        <th>password</th>
+                       
                     </tr>
                 </thead>
                 <tbody>
@@ -103,16 +58,7 @@ export default class NewEstudiante extends Component
                         <td>
                             <input className="form-control" type="text" name="nombre" value={this.state.nombre} onChange={this.changeEstudiante} />
                         </td>
-                        <td>
-                            <div className="input-group">
-                                <input className="form-control" type={this.state.mostrarPassword ? "text" : "password"} name="password" value={this.state.password} onChange={this.changeEstudiante} />
-                                <div className="input-group-append">
-                                    <button className="btn btn-outline-secondary" type="button" title="Generar" onClick={this.generarPassword}> <BsArrowClockwise /> </button>
-                                    <button className={this.state.mostrarPassword ? "btn btn-outline-secondary d-none" : "btn btn-outline-secondary"} type="button" title="Mostrar" onClick={this.mostrarPassword}> <BsFillEyeFill /> </button>
-                                    <button className={this.state.mostrarPassword ? "btn btn-outline-secondary" : "btn btn-outline-secondary d-none"} type="button" title="Ocultar" onClick={this.ocultarPassword}> <BsFillEyeSlashFill /> </button>
-                                </div>
-                            </div>
-                        </td>
+                    
                         <td>
                             <button className="btn btn-outline-secondary" onClick={this.clickAdd} title="Agregar Estudiante" > <FaPlusSquare/></button>
                         </td>
